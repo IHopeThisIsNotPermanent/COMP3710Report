@@ -1,7 +1,6 @@
 #modules.py
 import torch
 import torch.nn as nn
-from dataset import *
 
 class encoder_component(nn.Module):
     def __init__(self, in_size, out_size):
@@ -45,20 +44,22 @@ class decoder_component(nn.Module):
     
 class UNET(nn.Module):
     def __init__(self):
-        self.encoder = [encoder_component(3,32),
-                        encoder_component(32,64),
-                        encoder_component(64,128)]
+        super(UNET, self).__init__()
         
-        self.base = [nn.Conv2d(128, 256, kernel_size = 3, padding = 0),
+        self.encoder = nn.ModuleList([encoder_component(3,32),
+                        encoder_component(32,64),
+                        encoder_component(64,128)])
+        
+        self.base = nn.ModuleList([nn.Conv2d(128, 256, kernel_size = 3, padding = 0),
                      nn.BatchNorm2d(256),
                      nn.ReLU(),
                      nn.Conv2d(256, 256, kernel_size = 3, padding = 0),
                      nn.BatchNorm2d(256),
-                     nn.ReLU()]
+                     nn.ReLU()])
         
-        self.decoder = [decoder_component(256,128),
+        self.decoder = nn.ModuleList([decoder_component(256,128),
                         decoder_component(128,64),
-                         decoder_component(64,32)]
+                         decoder_component(64,32)])
         
         self.final = [nn.Conv2d(32, 1, kernel_size = 1, padding = 0),]
         

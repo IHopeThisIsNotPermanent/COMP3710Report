@@ -21,7 +21,9 @@ def remove_irrelivent(directory):
 
 def get_data(): 
     inp_data = datasets.ImageFolder('./Data', transform = transforms.Compose([transforms.Resize(256), 
-
+                                                                              transforms.CenterCrop(256),
+                                                                              transforms.ToTensor(),]))
+    
     inp = torch.utils.data.DataLoader(inp_data, batch_size = 10, shuffle = True)
 
     return inp
