@@ -1,6 +1,7 @@
 #dataset.py
 import torch, os
 from torchvision import datasets, transforms
+import matplotlib.pyplot as plt
 
 def remove_irrelivent(directory):
     """
@@ -18,7 +19,12 @@ def remove_irrelivent(directory):
             os.remove(directory+"/"+f.name)
             print("deleting file at dir ", directory+"/"+f.name)
 
-#dataset = datasets.ImageFolder('path', transform=transform)
+def get_data(): 
+    inp_data = datasets.ImageFolder('./Data', transform = transforms.Compose([transforms.Resize(256), 
+
+    inp = torch.utils.data.DataLoader(inp_data, batch_size = 10, shuffle = True)
+
+    return inp
 
 
 if __name__ == "__main__":
